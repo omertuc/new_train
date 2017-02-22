@@ -2,11 +2,11 @@
 
   <h1>מוצא:</h1>
 
-  <station-list select-id="origin"></station-list>
+  <station-list station-list="$ctrl.stations" select-id="$ctrl.origin"></station-list>
 
   <h1>יעד:</h1>
 
-  <station-list select-id="destination"></station-list>
+  <station-list station-list="$ctrl.stations" select-id="$ctrl.destination"></station-list>
 
   <button id="Now" ng-click="$ctrl.nowClickHandler()">הצג שעות להיום</button>
   <button id="OtherTime">תאריך אחר</button>

@@ -1,19 +1,20 @@
 'use strict';
 
-angular.
-module('myApp.stationList').
-component('stationList', {
+angular.module('myApp.stationList').component('stationList', {
     templateUrl: 'components/station-list/station-list.template.html',
     controllerAs: '$ctrl',
-    controller: ['$http', function ($http) {
+    controller: ['$scope', function ($scope) {
         this.orderProp = 'Heb[0]';
-        $http.get('stations/stations.json')
-            .then(({data}) => this.stations = data);
+
+        $scope.$watch('$ctrl.stationList', () => {
+            if (this.stationList) {
+                // Voodoo given to us by the gods
+                this.selectId = this.stationList[0].Id;
+            }
+        });
     }],
     bindings: {
-        selectId: '<'
+        stationList: '<',
+        selectId: '='
     }
-
-
-
 });

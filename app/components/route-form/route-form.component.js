@@ -2,32 +2,28 @@
 
 angular.module('myApp.routeForm').component('routeForm', {
     templateUrl: 'components/route-form/route-form.template.html',
-    controller: [function () {
+    controller: ['stationService', function (stationService) {
+        stationService.getStations()
+            .then(({data}) => this.stations = data);
+
         this.submit = function () {
-
-            let originSelect = document.getElementById('origin');
-            let selectedOrigin = originSelect.options[originSelect.selectedIndex].value;
-
-            let destinationSelect = document.getElementById('destination');
-            let selectedDestination = destinationSelect.options[destinationSelect.selectedIndex].value;
-
-            if (selectedOrigin == 0) {
+            if (this.origin == 0) {
                 alert("לא בחרת מוצא");
                 return;
             }
 
-            if (selectedDestination == 0) {
+            if (this.destination == 0) {
                 alert("לא בחרת יעד");
                 return;
             }
 
-            if (selectedOrigin == selectedDestination) {
+            if (this.origin == this.destination) {
                 alert("אנא בחר מוצא ויעד שונים");
                 return;
             }
 
-            // Submit form.
-            $('#SendToServer').submit();
+
+            // TODO: Submit form somehow
         },
 
         this.nowClickHandler = function () {
