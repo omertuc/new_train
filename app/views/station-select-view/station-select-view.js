@@ -1,13 +1,12 @@
 'use strict';
 
-angular.module('myApp.stationSelectView', ['ngRoute', 'myApp.stationList'])
+angular.module('myApp.stationSelectView', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/station-select', {
-            templateUrl: 'station-select-view/station-select-view.html',
+            templateUrl: 'views/station-select-view/station-select-view.html',
             controller: 'StationSelectViewCtrl'
         });
     }])
 
     .controller('StationSelectViewCtrl', [function () {
-
     }]);

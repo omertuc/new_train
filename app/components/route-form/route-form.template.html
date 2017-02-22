@@ -1,0 +1,19 @@
+<form>
+
+  <h1>מוצא:</h1>
+
+  <station-list select-id="origin"></station-list>
+
+  <h1>יעד:</h1>
+
+  <station-list select-id="destination"></station-list>
+
+  <button id="Now" ng-click="$ctrl.nowClickHandler()">הצג שעות להיום</button>
+  <button id="OtherTime">תאריך אחר</button>
+
+  <div id="datediv" class="hidden">
+    <h1>תאריך יציאה:</h1>
+    <input type="text" name="date" id="datepick" readonly>
+    <button id="SearchTimes">הצג זמנים</button>
+  </div>
+</form>

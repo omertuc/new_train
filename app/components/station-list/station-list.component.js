@@ -3,11 +3,17 @@
 angular.
 module('myApp.stationList').
 component('stationList', {
-    templateUrl: 'station-list/station-list.template.html',
-    controller: ['$http', function StationListController($http) {
-        var self = this;
-        $http.get('stations/stations.json').then(function(response) {
-            self.stations = response.data;
-        });
-    }]
+    templateUrl: 'components/station-list/station-list.template.html',
+    controllerAs: '$ctrl',
+    controller: ['$http', function ($http) {
+        this.orderProp = 'Heb[0]';
+        $http.get('stations/stations.json')
+            .then(({data}) => this.stations = data);
+    }],
+    bindings: {
+        selectId: '<'
+    }
+
+
+
 });

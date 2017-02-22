@@ -1,6 +1,6 @@
-<!--<option ng-repeat="station in $ctrl.stations" value="{{station.Heb}}">-->
-  <!--{{station.Id}}-->
-<!--</option>-->
-
-
-<h1>hi!</h1>
+<select ng-model="$ctrl.selectId">
+  <option ng-repeat="station in $ctrl.stations | orderBy:$ctrl.orderProp "
+          value="{{station.Id}}">
+    {{station.Heb[0]}}
+  </option>
+</select>
