@@ -3,16 +3,20 @@
 angular.module('myApp.routeForm').component('routeForm', {
     templateUrl: 'components/route-form/route-form.template.html',
     controller: ['stationService', function (stationService) {
-        stationService.getStations()
-            .then(({data}) => this.stations = data);
+        stationService.getStations().then(({data}) => this.stations = data);
+
+        this.isValidStation = function (stationId) {
+            return this.stations.map((stationObject) => Number(stationObject.Id))
+                    .filter((mappedId) => stationId === mappedId).length > 0;
+        };
 
         this.submit = function () {
-            if (this.origin == 0) {
+            if (this.isValidStation(this.origin)) {
                 alert("לא בחרת מוצא");
                 return;
             }
 
-            if (this.destination == 0) {
+            if (this.isValidStation(this.destination)) {
                 alert("לא בחרת יעד");
                 return;
             }
@@ -22,15 +26,14 @@ angular.module('myApp.routeForm').component('routeForm', {
                 return;
             }
 
-
             // TODO: Submit form somehow
-        },
+        };
 
         this.nowClickHandler = function () {
             console.log('ring');
             $("#datepick").datepicker("setDate", new Date());
             this.submit();
-        },
+        };
 
         $(document).ready(function () {
             let datePicker = $("#datepick");
