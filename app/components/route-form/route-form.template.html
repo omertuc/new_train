@@ -8,12 +8,12 @@
 
   <station-list station-list="$ctrl.stations" select-id="$ctrl.destination"></station-list>
 
-  <button id="Now" ng-click="$ctrl.nowClickHandler()">הצג שעות להיום</button>
-  <button id="OtherTime">תאריך אחר</button>
+  <button ng-click="$ctrl.nowClickHandler()">הצג שעות להיום</button>
+  <button ng-click="$ctrl.otherTimeHandler()">תאריך אחר</button>
 
   <div id="datediv" class="hidden">
     <h1>תאריך יציאה:</h1>
-    <input type="text" name="date" id="datepick" readonly>
-    <button id="SearchTimes">הצג זמנים</button>
+    <input ng-model="$ctrl.datePickerInput" ng-init="$ctrl.initializeDatepicker()" type="text" name="date" id="datepick" readonly>
+    <button ng-click="$ctrl.searchTimesHandler()">הצג זמנים</button>
   </div>
 </form>

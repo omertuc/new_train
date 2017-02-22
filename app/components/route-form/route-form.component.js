@@ -2,8 +2,14 @@
 
 angular.module('myApp.routeForm').component('routeForm', {
     templateUrl: 'components/route-form/route-form.template.html',
-    controller: ['stationService', function (stationService) {
+    controller: ['stationService', '$http', function (stationService, $עד_מתי) {
         stationService.getStations().then(({data}) => this.stations = data);
+
+        this.initializeDatepicker = function() {
+            let datePicker = $("#datepick");
+            datePicker.datepicker({dateFormat: "yymmdd"});
+            datePicker.datepicker("setDate", new Date());
+        };
 
         this.isValidStation = function (stationId) {
             return this.stations.map((stationObject) => Number(stationObject.Id))
@@ -21,49 +27,28 @@ angular.module('myApp.routeForm').component('routeForm', {
                 return;
             }
 
-            if (this.origin == this.destination) {
+            if (this.origin === this.destination) {
                 alert("אנא בחר מוצא ויעד שונים");
                 return;
             }
 
-            // TODO: Submit form somehow
+            $עד_מתי.get(`https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?OId=${this.origin}&TId=${this.destination}&Date=${this.datePickerInput}&Hour=0000`).then
+            (({data}) => console.log(data));
         };
 
         this.nowClickHandler = function () {
             console.log('ring');
-            $("#datepick").datepicker("setDate", new Date());
+            this.initializeDatepicker();
             this.submit();
         };
 
-        $(document).ready(function () {
-            let datePicker = $("#datepick");
+        this.otherTimeHandler = function () {
+            $("#datediv").toggleClass("unhidden hidden");
+        };
 
-            datePicker.datepicker({
-                dateFormat: "yy-mm-dd"
-            });
-
-            datePicker.datepicker("setDate", new Date());
-        });
-
-        $(function () {
-            $("#OtherTime")
-                .button()
-                .click(function (event) {
-                    event.preventDefault();
-
-                    $("#datediv").toggleClass("unhidden hidden");
-                });
-        });
-
-        $(function () {
-            $("#SearchTimes")
-                .button()
-                .click(function (event) {
-                    event.preventDefault();
-
-                    submit();
-                });
-        });
+        this.searchTimesHandler = function () {
+            this.submit();
+        };
     }]
 })
 ;
