@@ -23,3 +23,28 @@
   content: "|";
   padding-right: 0.3em;
 }
+
+/* Non-seed CSS: */
+html {
+  direction: rtl;
+}
+
+body {
+    background-color: #9bb;
+    color: #203030;
+    text-align: center;
+}
+
+/* Make sure the date picker and the calender pane it opens
+ is ltr unlike the rest of the app */
+md-input-container, div.md-datepicker-calendar-pane {
+  direction: ltr;
+}
+
+md-content.route-form {
+  margin: 0 auto;
+  padding: 1px;
+  width: 70%;
+  height: 90%;
+}
+

@@ -1,19 +1,33 @@
-<form>
+<div class="route-form">
+    <form>
 
-  <h1>מוצא:</h1>
+        <h1>תחנת מוצא:</h1>
 
-  <station-list station-list="$ctrl.stations" select-id="$ctrl.origin"></station-list>
+        <station-list station-list="$ctrl.stations" select-id="$ctrl.origin"></station-list>
 
-  <h1>יעד:</h1>
+        <h1>תחנת יעד:</h1>
 
-  <station-list station-list="$ctrl.stations" select-id="$ctrl.destination"></station-list>
+        <station-list station-list="$ctrl.stations" select-id="$ctrl.destination"></station-list>
 
-  <button ng-click="$ctrl.nowClickHandler()">הצג שעות להיום</button>
-  <button ng-click="$ctrl.otherTimeHandler()">תאריך אחר</button>
+        <form name="myForm" flex-gt-xs>
+            <h1>בחר תאריך:</h1>
 
-  <div id="datediv" class="hidden">
-    <h1>תאריך יציאה:</h1>
-    <input ng-model="$ctrl.datePickerInput" ng-init="$ctrl.initializeDatepicker()" type="text" name="date" id="datepick" readonly>
-    <button ng-click="$ctrl.searchTimesHandler()">הצג זמנים</button>
-  </div>
-</form>
+            <md-input-container>
+                <md-datepicker ng-model="ctrl.myDate" name="dateField" md-min-date="ctrl.minDate"
+                               md-max-date="ctrl.maxDate" md-open-on-focus></md-datepicker>
+
+                <div ng-messages="myForm.dateField.$error">
+                    <div ng-message="valid">The entered value is not a date!</div>
+                    <div ng-message="required">This date is required!</div>
+                    <div ng-message="mindate">Date is too early!</div>
+                    <div ng-message="maxdate">Date is too late!</div>
+                </div>
+            </md-input-container>
+        </form>
+
+        <md-button class="md-fab md-primary" aria-label="Use Android"
+                   ng-click="$ctrl.searchTimesHandler()">
+            <md-icon md-svg-src="img/icons/android.svg"></md-icon>
+        </md-button>
+    </form>
+</div>

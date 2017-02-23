@@ -1,6 +1,6 @@
-<select ng-model="$ctrl.selectId">
-    <option ng-repeat="station in $ctrl.stationList | orderBy:$ctrl.orderProp"
+<md-select ng-model="$ctrl.selectId">
+    <md-option ng-repeat="station in $ctrl.stationList | orderBy:$ctrl.orderProp"
             value="{{station.Id}}" ng-selected="$first">
         {{station.Heb[0]}}
-    </option>
-</select>
+    </md-option>
+</md-select>
