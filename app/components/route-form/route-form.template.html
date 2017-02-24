@@ -2,6 +2,11 @@
     <md-content layout-padding>
 
         <div layout-gt-sm="row">
+            <md-progress-circular ng-show="$ctrl.showSpinner"
+                                  md-mode="indeterminate" class="md-accent"></md-progress-circular>
+        </div>
+
+        <div layout-gt-sm="row">
             <station-list station-list="$ctrl.stations"
                           select-id="$ctrl.origin"
                           select-label="$ctrl.originLabel"></station-list>
@@ -9,7 +14,7 @@
 
         <div layout-gt-sm="row">
             <station-list station-list="$ctrl.stations"
-                          select-id="$ctrl.origin"
+                          select-id="$ctrl.destination"
                           select-label="$ctrl.destinationLabel"></station-list>
         </div>
 
@@ -20,9 +25,12 @@
                 <md-datepicker ng-model="$ctrl.myDate" name="dateField"
                                md-min-date="ctrl.minDate"
                                md-max-date="ctrl.maxDate"
+                               md-
                                md-open-on-focus></md-datepicker>
             </md-input-container>
+        </div>
 
+        <div layout-gt-sm="row">
             <md-button class="md-fab md-primary" aria-label="Search Route"
                        ng-click="$ctrl.searchTimesHandler()">
                 <md-icon md-svg-src="img/icons/ic_search_black_24px.svg"></md-icon>

@@ -22,7 +22,12 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
 
         this.isOpen = false;
 
-        stationService.getStations().then(({data}) => this.stations = data);
+        this.showSpinner = true;
+
+        stationService.getStations().then(({data}) => {
+            this.stations = data;
+            this.showSpinner = false;
+        });
 
         this.isValidStation = function (stationId) {
             return this.stations.map((stationObject) => Number(stationObject.Id))
