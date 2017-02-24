@@ -8,8 +8,15 @@ angular.module('myApp', [
     'myApp.stationSelectView',
     'myApp.stationList',
     'myApp.routeForm'
-]).config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
-    $locationProvider.hashPrefix('!');
+]).config([
+    '$locationProvider',
+    '$routeProvider',
+    '$mdThemingProvider',
+    function ($locationProvider, $routeProvider, $mdThemingProvider) {
+        $locationProvider.hashPrefix('!');
+        $routeProvider.otherwise({redirectTo: '/station-select'});
 
-    $routeProvider.otherwise({redirectTo: '/station-select'});
-}]);
+        $mdThemingProvider.theme('default').
+            primaryPalette('blue').accentPalette('green').dark();
+
+    }]);

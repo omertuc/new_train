@@ -1,33 +1,32 @@
 <div class="route-form">
-    <form>
+    <md-content layout-padding>
 
-        <h1>תחנת מוצא:</h1>
+        <div layout-gt-sm="row">
+            <station-list station-list="$ctrl.stations"
+                          select-id="$ctrl.origin"
+                          select-label="$ctrl.originLabel"></station-list>
+        </div>
 
-        <station-list station-list="$ctrl.stations" select-id="$ctrl.origin"></station-list>
+        <div layout-gt-sm="row">
+            <station-list station-list="$ctrl.stations"
+                          select-id="$ctrl.origin"
+                          select-label="$ctrl.destinationLabel"></station-list>
+        </div>
 
-        <h1>תחנת יעד:</h1>
-
-        <station-list station-list="$ctrl.stations" select-id="$ctrl.destination"></station-list>
-
-        <form name="myForm" flex-gt-xs>
-            <h1>בחר תאריך:</h1>
-
+        <div layout-gt-sm="row">
             <md-input-container>
-                <md-datepicker ng-model="ctrl.myDate" name="dateField" md-min-date="ctrl.minDate"
-                               md-max-date="ctrl.maxDate" md-open-on-focus></md-datepicker>
+                <label>תאריך</label>
 
-                <div ng-messages="myForm.dateField.$error">
-                    <div ng-message="valid">The entered value is not a date!</div>
-                    <div ng-message="required">This date is required!</div>
-                    <div ng-message="mindate">Date is too early!</div>
-                    <div ng-message="maxdate">Date is too late!</div>
-                </div>
+                <md-datepicker ng-model="$ctrl.myDate" name="dateField"
+                               md-min-date="ctrl.minDate"
+                               md-max-date="ctrl.maxDate"
+                               md-open-on-focus></md-datepicker>
             </md-input-container>
-        </form>
 
-        <md-button class="md-fab md-primary" aria-label="Use Android"
-                   ng-click="$ctrl.searchTimesHandler()">
-            <md-icon md-svg-src="img/icons/android.svg"></md-icon>
-        </md-button>
-    </form>
+            <md-button class="md-fab md-primary" aria-label="Search Route"
+                       ng-click="$ctrl.searchTimesHandler()">
+                <md-icon md-svg-src="img/icons/ic_search_black_24px.svg"></md-icon>
+            </md-button>
+        </div>
+    </md-content>
 </div>

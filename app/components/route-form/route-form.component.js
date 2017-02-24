@@ -5,6 +5,9 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
     controller: ['stationService', '$http', function (stationService, $http) {
         this.myDate = new Date();
 
+        this.originLabel = "תחנת מוצא";
+        this.destinationLabel = "תחנת יעד";
+
         this.minDate = new Date(
             this.myDate.getFullYear(),
             this.myDate.getMonth(),
