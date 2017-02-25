@@ -34,6 +34,21 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
                     .filter((mappedId) => stationId === mappedId).length > 0;
         };
 
+        function pad(num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        }
+
+        this.formatDate = function (dateObj) {
+            let year = dateObj.getYear() + 1900;
+            let month = dateObj.getMonth() + 1;
+            let day = dateObj.getDate();
+
+            return pad(year, 4) + pad(month, 2) + pad(day, 2);
+        }
+
+
         this.submit = function () {
             if (this.isValidStation(this.origin)) {
                 alert("לא בחרת מוצא");
@@ -50,8 +65,9 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
                 return;
             }
 
-            $http.get(`https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?OId=${this.origin}&TId=${this.destination}&Date=${this.datePickerInput}&Hour=0000`).then
-            (({data}) => console.log(data));
+            $http.get(
+                `https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?OId=${this.origin}&TId=${this.destination}&Date=${this.formatDate(this.myDate)}&Hour=0000`)
+                .then(({data}) => console.log(data));
         };
 
         this.searchTimesHandler = function () {
