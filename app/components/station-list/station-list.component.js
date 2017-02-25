@@ -3,15 +3,11 @@
 angular.module('myApp.stationList').component('stationList', {
     templateUrl: 'components/station-list/station-list.template.html',
     controllerAs: '$ctrl',
-    controller: ['$scope', '$element', 'focus', function ($scope, $element, focus) {
+    controller: ['$scope', '$element', function ($scope, $element) {
         $scope.searchTerm;
 
         $scope.clearSearchTerm = function() {
             $scope.searchTerm = '';
-        };
-
-        $scope.focusHeader = function() {
-            focus('stationSearch');
         };
 
         // The md-select directive eats keydown events for some quick select

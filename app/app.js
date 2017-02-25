@@ -4,7 +4,6 @@
 angular.module('myApp', [
     'ngRoute',
     'ngMaterial',
-    'myApp.focusService',
     'myApp.stationService',
     'myApp.stationSelectView',
     'myApp.stationList',
