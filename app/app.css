@@ -45,3 +45,8 @@ div.md-datepicker-calendar-pane {
 div.route-form {
   margin: auto 0;
 }
+
+.datepicker-container {
+  display: inherit;
+  padding-bottom: 3px;
+}

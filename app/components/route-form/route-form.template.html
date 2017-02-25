@@ -1,5 +1,5 @@
 <div class="route-form">
-  <md-content layout-padding layout="row" layout-xs="column">
+  <md-content layout-padding layout="row" layout-xs="column" layout-align="start center">
     <md-progress-circular ng-show="$ctrl.showSpinner"
       md-mode="indeterminate" class="md-accent"></md-progress-circular>
 
@@ -11,7 +11,7 @@
       select-id="$ctrl.destination"
       select-label="$ctrl.destinationLabel"></station-list>
 
-    <md-input-container>
+    <md-input-container class="datepicker-container">
       <label>תאריך</label>
 
       <md-datepicker ng-model="$ctrl.myDate" name="dateField"
