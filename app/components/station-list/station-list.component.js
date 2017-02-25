@@ -3,11 +3,15 @@
 angular.module('myApp.stationList').component('stationList', {
     templateUrl: 'components/station-list/station-list.template.html',
     controllerAs: '$ctrl',
-    controller: ['$scope', '$element', function ($scope, $element) {
+    controller: ['$scope', '$element', 'focus', function ($scope, $element, focus) {
         $scope.searchTerm;
 
         $scope.clearSearchTerm = function() {
             $scope.searchTerm = '';
+        };
+
+        $scope.focusHeader = function() {
+            focus('stationSearch');
         };
 
         // The md-select directive eats keydown events for some quick select
@@ -22,5 +26,30 @@ angular.module('myApp.stationList').component('stationList', {
         stationList: '<',
         selectId: '=',
         selectLabel: '<'
+    }
+}).directive('forceSelectFocus', function() {
+    return {
+        restrict: 'A',
+        require: ['^^mdSelect', '^ngModel'],
+        link: function(scope, element) {
+            scope.$watch(function () {
+                let foundElement = element;
+                while (!foundElement.hasClass('md-select-menu-container')) {
+                    foundElement = foundElement.parent();
+                }
+                return foundElement.hasClass('md-active');
+            }, function (newVal) {
+                if (newVal) {
+                    let foundElement = element;
+                    while (!foundElement.hasClass('md-select-menu-container')) {
+                        foundElement = foundElement.parent();
+                    }
+
+                    foundElement[0].scrollTop = 0;
+
+                    element.focus();
+                }
+            })
+        }
     }
 });

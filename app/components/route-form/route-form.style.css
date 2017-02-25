@@ -8,7 +8,7 @@
 
 /* Make select show 16 options instead of 5 */
 md-select-menu {
-    max-height: 100vh !important; }
+    max-height: 80vh !important; }
 
     md-select-menu md-content {
-    max-height: 100vh !important; }
+    max-height: 80vh !important; }

@@ -1,16 +1,18 @@
 <md-input-container>
     <label>{{$ctrl.selectLabel}}</label>
+
     <md-select ng-model="$ctrl.selectId"
                md-on-close="clearSearchTerm()"
                md-theme="default"
-               data-md-container-class="selectdemoSelectHeader"
-               md-max>
+               data-md-container-class="selectdemoSelectHeader">
 
         <md-select-header class="demo-select-header">
-            <input ng-model="searchTerm"
+            <input id="stationSearch"
+                   ng-model="searchTerm"
                    type="search"
                    placeholder="חפש תחנה.."
-                   class="demo-header-searchbox">
+                   class="demo-header-searchbox"
+                   force-select-focus>
         </md-select-header>
 
         <md-optgroup label="stations">
