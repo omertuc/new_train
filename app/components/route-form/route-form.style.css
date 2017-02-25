@@ -5,3 +5,10 @@
 .md-datepicker-input-container {
     margin-left: 0 !important;
 }
+
+/* Make select show 16 options instead of 5 */
+md-select-menu {
+    max-height: 100vh !important; }
+
+    md-select-menu md-content {
+    max-height: 100vh !important; }
