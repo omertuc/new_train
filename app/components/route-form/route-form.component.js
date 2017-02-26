@@ -2,11 +2,19 @@
 
 angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('routeForm', {
     templateUrl: 'components/route-form/route-form.template.html',
-    controller: ['stationService', '$http', function (stationService, $http) {
+    controller: ['resultsService', 'stationService', '$http', '$location', function (resultsService, stationService, $http, $location) {
         this.myDate = new Date();
 
         this.originLabel = "תחנת מוצא";
         this.destinationLabel = "תחנת יעד";
+
+        this.constructApiString = function(origin, destination, searchDate) {
+          let requestString = 'https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?';
+
+          requestString += `OId=${origin}&TId=${destination}&Date=${this.formatDate(searchDate)}&Hour=0000`;
+
+          return requestString;
+        };
 
         this.minDate = new Date(
             this.myDate.getFullYear(),
@@ -27,6 +35,7 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
         stationService.getStations().then(({data}) => {
             this.stations = data;
             this.showSpinner = false;
+            stationService.generateNameCache(data);
         });
 
         this.isValidStation = function (stationId) {
@@ -65,9 +74,11 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
                 return;
             }
 
-            $http.get(
-                `https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?OId=${this.origin}&TId=${this.destination}&Date=${this.formatDate(this.myDate)}&Hour=0000`)
-                .then(({data}) => console.log(data));
+            $http.get(this.constructApiString(this.origin, this.destination, this.myDate))
+                .then(({data}) => {
+                    resultsService.setResults(data);
+                    $location.path('/routes-result');
+                });
         };
 
         this.searchTimesHandler = function () {

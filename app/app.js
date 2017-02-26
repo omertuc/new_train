@@ -4,7 +4,10 @@
 angular.module('myApp', [
     'ngRoute',
     'ngMaterial',
+    'myApp.resultsService',
     'myApp.stationService',
+    'myApp.routeResultsList',
+    'myApp.routeResultsView',
     'myApp.stationSelectView',
     'myApp.stationList',
     'myApp.routeForm'

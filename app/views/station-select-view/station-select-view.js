@@ -8,5 +8,6 @@ angular.module('myApp.stationSelectView', ['ngRoute'])
         });
     }])
 
-    .controller('StationSelectViewCtrl', [function () {
+    .controller('StationSelectViewCtrl', ['$rootScope', function ($rootScope) {
+        $rootScope.titleString = "בחירת מסלול רכבת";
     }]);
