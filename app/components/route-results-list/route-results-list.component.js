@@ -5,8 +5,6 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
     controllerAs: '$ctrl',
     controller: ['$scope', '$routeParams', '$http', 'stationService',
         function ($scope, $routeParams, $http, stationService) {
-            $scope.$on('$ion')
-
             this.constructApiString = function (origin, destination, searchDate) {
                 let requestString = 'https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?';
 
@@ -77,6 +75,9 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
 
             stationService.getStations().then((stations) => {
                 this.stations = stations;
+
+                this.fetchResults($routeParams.origin,
+                    $routeParams.destination, $routeParams.date);
             });
 
         }]
