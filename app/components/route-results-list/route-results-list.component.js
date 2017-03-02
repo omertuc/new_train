@@ -3,44 +3,81 @@
 angular.module('myApp.routeResultsList').component('routeResultsList', {
     templateUrl: 'components/route-results-list/route-results-list.template.html',
     controllerAs: '$ctrl',
-    controller: ['$scope', 'resultsService', 'stationService',
-        function ($scope, resultsService, stationService) {
-        this.parseResults = function(results) {
-            let data = results.Data;
-            let details = data.Details;
+    controller: ['$scope', '$routeParams', '$http', 'stationService',
+        function ($scope, $routeParams, $http, stationService) {
+            $scope.$on('$ion')
 
-            let parsedResults = {};
+            this.constructApiString = function (origin, destination, searchDate) {
+                let requestString = 'https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?';
 
-            // Extract the date from the date-time string.
-            parsedResults.date = details.Date.split(' ')[0];
+                requestString += `OId=${origin}&TId=${destination}&Date=${searchDate}&Hour=0000`;
 
-            parsedResults.originName =
-                stationService.resolveName(details.Origin);
+                return requestString;
+            };
 
-            parsedResults.destinationName =
-                stationService.resolveName(details.Destination);
 
-            parsedResults.routes = [];
+            this.handleResults = function (results) {
+                $scope.parsedResults =
+                    this.parseResults(results);
 
-            for (let route in details.Routes)
-            {
-                let parsedRoute = {};
+                $scope.titleString = `תוצאות לתאריך ${$scope.parsedResults.date} מ${$scope.parsedResults.originName} ל${$scope.parsedResults.destinationName}`
+            };
 
-                parsedRoute.tripLength = route.EstTime;
-                parsedRoute.requiresExchange = route.IsExchange;
+            this.fetchResults = function (origin, destination, date) {
+                $http.get(this.constructApiString(origin, destination, date))
+                    .then(({data}) => {
+                        this.handleResults(data);
+                    });
+            };
 
-                parsedResults.routes.push(parsedRoute);
-            }
+            this.parseResults = function (results) {
+                console.log(results);
 
-            return parsedResults;
-        };
+                let data = results.Data;
 
-        $scope.parsedResults =
-            this.parseResults(resultsService.getResults());
+                let details = data.Details;
 
-        $scope.date = parsedResults.date;
-        $scope.originName = parsedResults.originName;
-        $scope.destinationName = parsedResults.destinationName;
-        $scope.routes = parsedResults.routes;
-    }]
+                let parsedResults = {};
+
+                // Extract the date from the date-time string.
+                parsedResults.date = details.Date.split(' ')[0];
+
+                parsedResults.originName =
+                    stationService.resolveName(String(details.Origin));
+
+                parsedResults.destinationName =
+                    stationService.resolveName(String(details.Destination));
+
+                parsedResults.routes = [];
+
+                for (let routeIndex in data.Routes) {
+                    let route = data.Routes[routeIndex];
+
+                    let parsedRoute = {};
+
+                    parsedRoute.tripLength = route.EstTime;
+                    parsedRoute.requiresExchange = route.IsExchange;
+
+                    let firstTrain = route.Train[0];
+                    let lastTrain = route.Train.slice(-1)[0];
+
+                    parsedRoute.departure =
+                        firstTrain.DepartureTime.split(' ')[1];
+
+                    parsedRoute.arrival =
+                        lastTrain.ArrivalTime.split(' ')[1];
+
+                    parsedRoute.trains = route.Train;
+
+                    parsedResults.routes.push(parsedRoute);
+                }
+
+                return parsedResults;
+            };
+
+            stationService.getStations().then((stations) => {
+                this.stations = stations;
+            });
+
+        }]
 });

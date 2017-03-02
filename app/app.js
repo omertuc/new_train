@@ -4,7 +4,6 @@
 angular.module('myApp', [
     'ngRoute',
     'ngMaterial',
-    'myApp.resultsService',
     'myApp.stationService',
     'myApp.routeResultsList',
     'myApp.routeResultsView',
@@ -22,9 +21,14 @@ angular.module('myApp', [
             primaryPalette('blue').accentPalette('green').dark();
 
         $mdDateLocaleProvider.formatDate = function(date) {
-          var day = date.getDate();
-          var monthIndex = date.getMonth();
-          var year = date.getFullYear();
+          let day = date.getDate();
+          let monthIndex = date.getMonth();
+          let year = date.getFullYear();
           return day + '/' + (monthIndex + 1) + '/' + year;
         };
-    }]);
+    }]).controller("IndexController", ['stationService', '$scope', '$location', function($scope, $location) {
+    $scope.redirect = function(url) {
+        $location.path(url);
+    };
+
+}]);
