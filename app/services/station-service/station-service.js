@@ -8,7 +8,7 @@ angular.module('myApp.stationService', [])
 
                 return new Promise (function(resolve, reject) {
                     if (me.stations) {
-                        return me.stations;
+                        resolve(me.stations);
                     } else {
                         $http.get('stations/stations.json').then((data) => {
                             me.stations = data.data;
