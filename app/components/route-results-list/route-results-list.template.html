@@ -6,16 +6,17 @@
                 <h3>{{"יציאה: " + route.departure + " הגעה: " + route.arrival}}</h3>
                 <h4>{{ 'זמן מסלול: ' + route.tripLength }}</h4>
                 <p>{{ route.IsExchange ? "כולל החלפה" : "לא כולל החלפה"}}</p>
-                <md-list flex>
-                    <md-list-item class="md-3-line" ng-repeat="train in route.trains" ng-click="null">
-                        <div class="md-list-item-text" layout="column">
-                            <h3>train</h3>
-                            <h4>B</h4>
-                            <p>C</p>
-                        </div>
-                    </md-list-item>
-                </md-list>
+                <!--<md-list flex>-->
+                    <!--<md-list-item class="md-3-line" ng-repeat="train in route.trains" ng-click="null">-->
+                        <!--<div class="md-list-item-text" layout="column">-->
+                            <!--<h3>train</h3>-->
+                            <!--<h4>B</h4>-->
+                            <!--<p>C</p>-->
+                        <!--</div>-->
+                    <!--</md-list-item>-->
+                <!--</md-list>-->
             </div>
         </md-list-item>
     </md-list>
 </md-content>
+
