@@ -3,8 +3,8 @@
 angular.module('myApp.routeResultsList').component('routeResultsList', {
     templateUrl: 'components/route-results-list/route-results-list.template.html',
     controllerAs: '$ctrl',
-    controller: ['$scope', '$location', '$sanitize', '$routeParams', '$http', 'stationService',
-        function ($scope, $location, $sanitize, $routeParams, $http, stationService) {
+    controller: ['$scope', '$location', '$mdToast', '$sanitize', '$routeParams', '$http', 'stationService',
+        function ($scope, $location, $mdToast, $sanitize, $routeParams, $http, stationService) {
             this.constructApiString = function (origin, destination, searchDate) {
                 let requestString = 'https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?';
 
@@ -23,8 +23,6 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                 $scope.parsedResults =
                     this.parseResults(results);
 
-                $scope.showSpinner = false;
-
                 $scope.titleString = `תוצאות לתאריך `;
                 $scope.titleString += this.bold(`${$scope.parsedResults.date}`) + " ";
                 $scope.titleString += `מ-`;
@@ -40,9 +38,16 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
             this.fetchResults = function (origin, destination, date) {
                 $http.get(this.constructApiString(origin, destination, date))
                     .then(({data}) => {
+                        $scope.showSpinner = false;
                         this.handleResults(data);
                     }).catch(({data}) => {
-                        alert("API Error");
+                        $scope.showSpinner = false;
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .textContent('API error :(')
+                                .hideDelay(0)
+                                .theme('failure-toast')
+                        )
                     }
                 );
             };
@@ -74,7 +79,7 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                 parsedTrain.string += `${parsedTrain.departure}`;
                 parsedTrain.string += ' מתחנת ';
                 parsedTrain.string += `${parsedTrain.originName}`;
-                parsedTrain.string += ` רציף `;
+                parsedTrain.string += ` ברציף `;
                 parsedTrain.string += `${parsedTrain.originPlatform}`;
                 parsedTrain.string += ` ומגיעה בשעה `;
                 parsedTrain.string += `${parsedTrain.arrival}`;
@@ -116,12 +121,16 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                 if (parsedRoute.requiresComplexExchange) {
                     parsedRoute.exchangeString = "כולל מספר החלפות";
                 } else if (parsedRoute.requiresExchange) {
-                    parsedRoute.exchangeString = "החלפת רכבת ב";
+                    parsedRoute.exchangeString = "החלפה: לרדת ב";
                     parsedRoute.exchangeString += parsedRoute.trains[0].destinationName;
-                    parsedRoute.exchangeString += " (רציף ";
+                    parsedRoute.exchangeString += " (";
+                    parsedRoute.exchangeString += parsedRoute.trains[0].arrival;
+                    parsedRoute.exchangeString += ") ולעלות לרכבת ברציף ";
                     parsedRoute.exchangeString += parsedRoute.trains[1].originPlatform;
-                    parsedRoute.exchangeString += ") שתגיעה בשעה ";
+                    parsedRoute.exchangeString += " (";
                     parsedRoute.exchangeString += parsedRoute.trains[1].departure;
+                    parsedRoute.exchangeString += ")";
+
                 } else {
                     parsedRoute.exchangeString = "ללא החלפות";
                 }

@@ -11,12 +11,12 @@
             <md-list-item class="md-3-line" ng-click="toggleDetails($index)">
                 <img ng-src="img/icons/train_white.svg" class="md-avatar" />
                 <div class="md-list-item-text" layout="column">
-                    <h3>{{route.departure + " ⇐ " + route.arrival}}</h3>
+                    <h3>{{route.departure + " ◅ " + route.arrival}}</h3>
                     <h4>{{ 'משך מסלול: ' + route.tripLength }}</h4>
                     <h4>{{ 'עלייה ברציף: ' + route.initialPlatform }}</h4>
                     <p>{{ route.exchangeString }}</p>
                     <md-list ng-hide="route.hideDetails" flex>
-                        <h3>פרטי החלפה:</h3>
+                        <h3>פרטי מסלול:</h3>
 
                         <md-list-item class="md-2-line" ng-repeat="train in route.trains">
                             <div class="md-list-item-text" layout="column">

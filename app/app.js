@@ -18,7 +18,7 @@ angular.module('myApp', [
             $locationProvider.hashPrefix('!');
             $routeProvider.otherwise({redirectTo: '/station-select'});
 
-            $mdThemingProvider.theme('default').primaryPalette('blue').accentPalette('green').dark();
+            $mdThemingProvider.theme('default').primaryPalette('teal').accentPalette('green').dark();
 
             $mdDateLocaleProvider.formatDate = function (date) {
                 let day = date.getDate();
