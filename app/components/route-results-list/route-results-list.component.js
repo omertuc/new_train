@@ -3,8 +3,8 @@
 angular.module('myApp.routeResultsList').component('routeResultsList', {
     templateUrl: 'components/route-results-list/route-results-list.template.html',
     controllerAs: '$ctrl',
-    controller: ['$scope', '$routeParams', '$http', 'stationService',
-        function ($scope, $routeParams, $http, stationService) {
+    controller: ['$scope', '$sanitize', '$routeParams', '$http', 'stationService',
+        function ($scope, $sanitize, $routeParams, $http, stationService) {
             this.constructApiString = function (origin, destination, searchDate) {
                 let requestString = 'https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?';
 
@@ -13,12 +13,24 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                 return requestString;
             };
 
+            $scope.showSpinner = true;
+
+            this.bold = function(text) {
+                return `<b>${text}</b>`;
+            };
 
             this.handleResults = function (results) {
                 $scope.parsedResults =
                     this.parseResults(results);
 
-                $scope.titleString = `תוצאות לתאריך ${$scope.parsedResults.date} מ${$scope.parsedResults.originName} ל${$scope.parsedResults.destinationName}`
+                $scope.showSpinner = false;
+
+                $scope.titleString = `תוצאות לתאריך `;
+                $scope.titleString += this.bold(`${$scope.parsedResults.date}`)+ " ";
+                $scope.titleString += `מ-`;
+                $scope.titleString += this.bold(`${$scope.parsedResults.originName}` + " ");
+                $scope.titleString += `ל-`;
+                $scope.titleString += this.bold(`${$scope.parsedResults.destinationName}`);
             };
 
             this.fetchResults = function (origin, destination, date) {
@@ -28,9 +40,71 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                     });
             };
 
-            this.parseResults = function (results) {
-                console.log(results);
+            this.parseTrain = function (train) {
+                let parsedTrain = {};
 
+                parsedTrain.originName =
+                    stationService.resolveName(String(train.OrignStation));
+
+                parsedTrain.destinationName =
+                    stationService.resolveName(String(train.DestinationStation));
+
+                parsedTrain.originPlatform = train.Platform;
+
+                parsedTrain.destinationPlatform = train.DestPlatform;
+
+                parsedTrain.departure =
+                    train.DepartureTime.split(' ')[1];
+
+                parsedTrain.arrival =
+                    train.ArrivalTime.split(' ')[1];
+
+                parsedTrain.string = 'יוצאת בשעה ';
+                parsedTrain.string += `${parsedTrain.departure}`;
+                parsedTrain.string += ' מתחנה ';
+                parsedTrain.string += `${parsedTrain.originName}`;
+                parsedTrain.string += ` רציף `;
+                parsedTrain.string += `${parsedTrain.originPlatform}`;
+                parsedTrain.string += ` ומגיעה בשעה `;
+                parsedTrain.string += `${parsedTrain.arrival}`;
+                parsedTrain.string += ` לתחנה `;
+                parsedTrain.string += `${parsedTrain.destinationName}`;
+                parsedTrain.string += ` ברציף `;
+                parsedTrain.string += `${parsedTrain.destinationPlatform}`;
+
+
+                return parsedTrain;
+            };
+
+            this.parseRoute = function (route) {
+                let parsedRoute = {};
+
+                parsedRoute.tripLength = route.EstTime;
+                parsedRoute.requiresExchange = route.IsExchange;
+
+                let firstTrain = route.Train[0];
+                let lastTrain = route.Train.slice(-1)[0];
+
+                parsedRoute.departure =
+                    firstTrain.DepartureTime.split(' ')[1];
+
+                parsedRoute.arrival =
+                    lastTrain.ArrivalTime.split(' ')[1];
+
+                parsedRoute.initialPlatform =
+                    firstTrain.Platform;
+
+                parsedRoute.trains = [];
+
+                for (let [index, train] of route.Train.entries()) {
+
+                    parsedRoute.trains.push(this.parseTrain(train));
+                }
+
+                return parsedRoute;
+            };
+
+            this.parseResults = function (results) {
                 let data = results.Data;
 
                 let details = data.Details;
@@ -38,7 +112,7 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                 let parsedResults = {};
 
                 // Extract the date from the date-time string.
-                parsedResults.date = details.Date.split(' ')[0];
+                parsedResults.date = $sanitize(details.Date.split(' ')[0]);
 
                 parsedResults.originName =
                     stationService.resolveName(String(details.Origin));
@@ -48,26 +122,8 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
 
                 parsedResults.routes = [];
 
-                for (let routeIndex in data.Routes) {
-                    let route = data.Routes[routeIndex];
-
-                    let parsedRoute = {};
-
-                    parsedRoute.tripLength = route.EstTime;
-                    parsedRoute.requiresExchange = route.IsExchange;
-
-                    let firstTrain = route.Train[0];
-                    let lastTrain = route.Train.slice(-1)[0];
-
-                    parsedRoute.departure =
-                        firstTrain.DepartureTime.split(' ')[1];
-
-                    parsedRoute.arrival =
-                        lastTrain.ArrivalTime.split(' ')[1];
-
-                    parsedRoute.trains = route.Train;
-
-                    parsedResults.routes.push(parsedRoute);
+                for (let route of data.Routes) {
+                    parsedResults.routes.push(this.parseRoute(route));
                 }
 
                 return parsedResults;
@@ -82,3 +138,4 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
 
         }]
 });
+

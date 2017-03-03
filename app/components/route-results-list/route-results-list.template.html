@@ -1,20 +1,26 @@
-<md-content>
+<md-content ng-cloak>
     <md-list flex>
-        <md-subheader class="md-no-sticky">{{titleString}}</md-subheader>
+        <md-subheader class="md-no-sticky" ng-bind-html="titleString"></md-subheader>
+
+        <md-progress-circular ng-show="showSpinner"
+                              md-mode="indeterminate" class="md-accent"></md-progress-circular>
+
         <md-list-item class="md-3-line" ng-repeat="route in parsedResults.routes" ng-click="null">
             <div class="md-list-item-text" layout="column">
-                <h3>{{"יציאה: " + route.departure + " הגעה: " + route.arrival}}</h3>
+                <h2>{{"יציאה בשעה " + route.departure + " מרציף " + route.initialPlatform + " הגעה בשעה " + route.arrival}}</h2>
                 <h4>{{ 'זמן מסלול: ' + route.tripLength }}</h4>
-                <p>{{ route.IsExchange ? "כולל החלפה" : "לא כולל החלפה"}}</p>
-                <!--<md-list flex>-->
-                    <!--<md-list-item class="md-3-line" ng-repeat="train in route.trains" ng-click="null">-->
-                        <!--<div class="md-list-item-text" layout="column">-->
-                            <!--<h3>train</h3>-->
-                            <!--<h4>B</h4>-->
-                            <!--<p>C</p>-->
-                        <!--</div>-->
-                    <!--</md-list-item>-->
-                <!--</md-list>-->
+                <p>{{ route.requiresExchange ? "כולל החלפה" : "לא כולל החלפה"}}</p>
+                <md-list ng-hide="!route.requiresExchange" flex>
+                    <h3>פרטי החלפה:</h3>
+
+                    <md-list-item class="md-3-line" ng-repeat="train in route.trains"
+                                  ng-click="null">
+                        <div class="md-list-item-text" layout="column">
+                            <h4>רכבת מספר {{$index + 1}}</h4>
+                            <p>{{train.string}}</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
             </div>
         </md-list-item>
     </md-list>

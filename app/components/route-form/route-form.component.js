@@ -28,7 +28,7 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
         });
 
         function pad(num, size) {
-            var s = num + "";
+            let s = num + "";
             while (s.length < size) s = "0" + s;
             return s;
         }
