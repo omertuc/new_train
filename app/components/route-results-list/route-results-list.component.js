@@ -98,7 +98,7 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                     this.extractTime(firstTrain.DepartureTime);
 
                 parsedRoute.arrival =
-                    this.extractTime(firstTrain.ArrivalTime);
+                    this.extractTime(lastTrain.ArrivalTime);
 
                 parsedRoute.initialPlatform =
                     firstTrain.Platform;
