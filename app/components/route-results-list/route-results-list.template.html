@@ -5,16 +5,17 @@
         <md-progress-circular ng-show="showSpinner"
                               md-mode="indeterminate" class="md-accent"></md-progress-circular>
 
-        <md-list-item class="md-3-line" ng-repeat="route in parsedResults.routes" ng-click="null">
+        <md-list-item class="md-3-line" ng-repeat="route in parsedResults.routes"
+                      ng-click="toggleDetails($index)">
             <div class="md-list-item-text" layout="column">
-                <h2>{{"יציאה בשעה " + route.departure + " מרציף " + route.initialPlatform + " הגעה בשעה " + route.arrival}}</h2>
-                <h4>{{ 'זמן מסלול: ' + route.tripLength }}</h4>
-                <p>{{ route.requiresExchange ? "כולל החלפה" : "לא כולל החלפה"}}</p>
-                <md-list ng-hide="!route.requiresExchange" flex>
+                <h3>{{route.departure + " ← " + route.arrival}}</h3>
+                <h4>{{ 'משך מסלול: ' + route.tripLength }}</h4>
+                <h4>{{ 'עלייה ברציף: ' + route.initialPlatform }}</h4>
+                <p>{{ route.exchangeString }}</p>
+                <md-list ng-hide="route.hideDetails" flex>
                     <h3>פרטי החלפה:</h3>
 
-                    <md-list-item class="md-3-line" ng-repeat="train in route.trains"
-                                  ng-click="null">
+                    <md-list-item class="md-2-line" ng-repeat="train in route.trains">
                         <div class="md-list-item-text" layout="column">
                             <h4>רכבת מספר {{$index + 1}}</h4>
                             <p>{{train.string}}</p>
