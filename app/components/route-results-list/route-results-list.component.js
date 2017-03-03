@@ -120,7 +120,7 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                     parsedRoute.exchangeString += parsedRoute.trains[0].destinationName;
                     parsedRoute.exchangeString += " (רציף ";
                     parsedRoute.exchangeString += parsedRoute.trains[1].originPlatform;
-                    parsedRoute.exchangeString += ") בשעה ";
+                    parsedRoute.exchangeString += ") שתגיעה בשעה ";
                     parsedRoute.exchangeString += parsedRoute.trains[1].departure;
                 } else {
                     parsedRoute.exchangeString = "ללא החלפות";
