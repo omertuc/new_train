@@ -13,7 +13,10 @@ angular.module('myApp.stationList').component('stationList', {
         // The md-select directive eats keydown events for some quick select
         // logic. Since we have a search input here, we don't need that logic.
         $element.find('input').on('keydown', function(ev) {
-            ev.stopPropagation();
+            let allowedKeys = ['ArrowDown', 'ArrowUp'];
+
+            if (!(allowedKeys.includes(ev.key)))
+                ev.stopPropagation();
         });
 
         this.orderProp = 'Heb[0]';
