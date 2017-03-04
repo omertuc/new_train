@@ -4,15 +4,15 @@
       md-mode="indeterminate" class="md-accent"></md-progress-circular>
 
     <station-list station-list="$ctrl.stations"
-      select-id="$ctrl.origin"
+      select-id="global.origin"
       select-label="$ctrl.originLabel"></station-list>
 
     <station-list station-list="$ctrl.stations"
-      select-id="$ctrl.destination"
+      select-id="global.destination"
       select-label="$ctrl.destinationLabel"></station-list>
 
     <md-input-container class="datepicker-container">
-      <md-datepicker ng-model="$ctrl.myDate" name="dateField"
+      <md-datepicker ng-model="global.myDate" name="dateField"
         md-min-date="ctrl.minDate"
         md-max-date="ctrl.maxDate"
         md-open-on-focus></md-datepicker>

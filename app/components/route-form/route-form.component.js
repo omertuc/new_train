@@ -5,8 +5,17 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
     bindings: {
 
     },
-    controller: ['stationService', '$scope', '$http', '$location', function (stationService, $scope, $http, $location) {
-        this.myDate = new Date();
+    controller: ['stationService', '$rootScope', '$scope', '$http', '$location',
+        function (stationService, $rootScope, $scope, $http, $location) {
+
+
+        $scope.global = $rootScope;
+
+        if (!$rootScope.myDate) {
+            $rootScope.myDate = new Date();
+        }
+
+
 
         this.originLabel = "תחנת מוצא";
         this.destinationLabel = "תחנת יעד";
@@ -42,6 +51,10 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
         };
 
         this.submit = function () {
+            this.origin = $rootScope.origin;
+            this.destination = $rootScope.destination
+            this.myDate = $rootScope.myDate;
+
             if (this.isValidStation(this.origin)) {
                 alert("לא בחרת מוצא");
                 return;
@@ -66,3 +79,4 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
     }]
 })
 ;
+
