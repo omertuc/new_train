@@ -9,14 +9,25 @@
         <div ng-repeat="route in parsedResults.routes">
             <md-divider></md-divider>
             <md-list-item class="md-3-line" ng-click="toggleDetails($index)">
-                <img ng-src="img/icons/train_white.svg" class="md-avatar" />
+
                 <div class="md-list-item-text" layout="column">
-                    <h3>{{route.departure + " ◅ " + route.arrival}}</h3>
-                    <h4>{{ 'משך מסלול: ' + route.tripLength }}</h4>
-                    <h4>{{ 'עלייה ברציף: ' + route.initialPlatform }}</h4>
+
+                    <h2 class="md-primary">{{route.departure + " ◅ " + route.arrival}}</h2>
                     <p>{{ route.exchangeString }}</p>
-                    <md-list ng-hide="route.hideDetails" flex>
+
+                    <img ng-src="img/icons/train_white.svg" class="md-secondary" />
+
+                    <div class="md-secondary" ng-hide="!route.hideDetails">
+                        <p>{{ ' סה"כ ' + route.tripLength }}</p>
+                        <p>{{ 'עלייה ברציף: ' + route.initialPlatform }}</p>
+                    </div>
+
+                    <md-list ng-hide="route.hideDetails" ng-click="toggleDetails($index)" flex>
                         <h3>פרטי מסלול:</h3>
+
+                        <div class="md-list-item-text" layout="column">
+                            <h4>{{ 'משך מסלול: ' + route.tripLength }}</h4>
+                        </div>
 
                         <md-list-item class="md-2-line" ng-repeat="train in route.trains">
                             <div class="md-list-item-text" layout="column">
@@ -25,6 +36,7 @@
                             </div>
                         </md-list-item>
                     </md-list>
+
                 </div>
             </md-list-item>
         </div>

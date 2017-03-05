@@ -11,3 +11,10 @@ md-toast.md-failure-toast-theme {  }
     md-toast div.md-toast-content {
         background-color: red; }
 
+p {
+    margin: 0px;
+}
+
+div.md-secondary-container div {
+    margin-right: 0.5em;
+}

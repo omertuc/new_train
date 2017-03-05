@@ -79,13 +79,13 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                 parsedTrain.string += `${parsedTrain.departure}`;
                 parsedTrain.string += ' מתחנת ';
                 parsedTrain.string += `${parsedTrain.originName}`;
-                parsedTrain.string += ` ברציף `;
+                parsedTrain.string += ` מרציף `;
                 parsedTrain.string += `${parsedTrain.originPlatform}`;
                 parsedTrain.string += ` ומגיעה בשעה `;
                 parsedTrain.string += `${parsedTrain.arrival}`;
                 parsedTrain.string += ` לתחנת `;
                 parsedTrain.string += `${parsedTrain.destinationName}`;
-                parsedTrain.string += ` ברציף `;
+                parsedTrain.string += ` לרציף `;
                 parsedTrain.string += `${parsedTrain.destinationPlatform}`;
 
 
@@ -119,7 +119,7 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                 parsedRoute.requiresComplexExchange = parsedRoute.trains.length > 2;
 
                 if (parsedRoute.requiresComplexExchange) {
-                    parsedRoute.exchangeString = "כולל מספר החלפות";
+                    parsedRoute.exchangeString = "יותר מהחלפה אחת, לחץ לפירוט";
                 } else if (parsedRoute.requiresExchange) {
                     parsedRoute.exchangeString = "החלפה: לרדת ב";
                     parsedRoute.exchangeString += parsedRoute.trains[0].destinationName;
@@ -135,7 +135,7 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                     parsedRoute.exchangeString = "ללא החלפות";
                 }
 
-                parsedRoute.hideDetails = !parsedRoute.requiresComplexExchange;
+                parsedRoute.hideDetails = true;
 
                 return parsedRoute;
             };
