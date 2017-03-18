@@ -8,15 +8,11 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
     controller: ['stationService', '$rootScope', '$scope', '$http', '$location',
         function (stationService, $rootScope, $scope, $http, $location) {
 
-
         $scope.global = $rootScope;
 
         if (!$rootScope.myDate) {
             $rootScope.myDate = new Date();
         }
-
-
-
         this.originLabel = "תחנת מוצא";
         this.destinationLabel = "תחנת יעד";
 
@@ -75,6 +71,11 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
 
         this.searchTimesHandler = function () {
             this.submit();
+        };
+
+        this.swapStations = function () {
+            [$scope.global.origin, $scope.global.destination] =
+                [$scope.global.destination, $scope.global.origin];
         };
     }]
 })

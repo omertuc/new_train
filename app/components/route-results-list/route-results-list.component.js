@@ -20,15 +20,33 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
             };
 
             this.handleResults = function (results) {
-                $scope.parsedResults =
-                    this.parseResults(results);
+                $scope.showSpinner = false;
 
-                $scope.titleString = `תוצאות לתאריך `;
-                $scope.titleString += this.bold(`${$scope.parsedResults.date}`) + " ";
-                $scope.titleString += `מ-`;
-                $scope.titleString += this.bold(`${$scope.parsedResults.originName}` + " ");
-                $scope.titleString += `ל-`;
-                $scope.titleString += this.bold(`${$scope.parsedResults.destinationName}`);
+                $scope.titleString = '';
+
+                if (results) {
+                    $scope.parsedResults = this.parseResults(results);
+                    $scope.titleString += `תוצאות `;
+                    $scope.titleString += 'לתאריך ';
+                    $scope.titleString += this.bold(`${$scope.parsedResults.date}`) + " ";
+                    $scope.titleString += `מ-`;
+                    $scope.titleString += this.bold(`${$scope.parsedResults.originName}` + " ");
+                    $scope.titleString += `ל-`;
+                    $scope.titleString += this.bold(`${$scope.parsedResults.destinationName}`);
+                } else {
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('שגיאת API :(')
+                            .hideDelay(5000)
+                            .theme('failure-toast'));
+
+                    $scope.titleString += `שגיאה בחיפוש תוצאות מתחנת `;
+                    $scope.titleString += stationService.resolveName(String($routeParams.origin));
+                    $scope.titleString += " לתחנת ";
+                    $scope.titleString += stationService.resolveName(String($routeParams.destination));
+                    $scope.titleString += " בתאריך ";
+                    $scope.titleString += this.formatDate(String($routeParams.date));
+                }
             };
 
             this.extractTime = function (dateTime) {
@@ -38,18 +56,10 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
             this.fetchResults = function (origin, destination, date) {
                 $http.get(this.constructApiString(origin, destination, date))
                     .then(({data}) => {
-                        $scope.showSpinner = false;
                         this.handleResults(data);
                     }).catch(({data}) => {
-                        $scope.showSpinner = false;
-                        $mdToast.show(
-                            $mdToast.simple()
-                                .textContent('API error :(')
-                                .hideDelay(0)
-                                .theme('failure-toast')
-                        )
-                    }
-                );
+                        this.handleResults(null);
+                    });
             };
 
             $scope.toggleDetails = function (routeIndex) {
@@ -92,6 +102,67 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                 return parsedTrain;
             };
 
+            this.breakDate = function (dateString) {
+                let yearLength = 4;
+                let monthLength = 2;
+                let dayLength = monthLength;
+
+                if (dateString.length != yearLength + monthLength + dayLength) {
+                        console.log("Invalid date string", dateString);
+                        return [null, null, null];
+                }
+
+                let yearStart = 0;
+                let monthStart = yearStart + yearLength;
+                let dayStart = monthStart + monthLength;
+                let dayEnd = dayStart + dayLength;
+
+                return [dateString.slice(yearStart, monthStart),
+                        dateString.slice(monthStart, dayStart),
+                        dateString.slice(dayStart, dayEnd)];
+            };
+
+            this.zeroesLead = function(num, len) {
+                let numStr = String(num);
+                while (numStr.length < len) {
+                    numStr = '0' + numStr;
+                }
+
+                return numStr;
+            };
+
+            this.assembleDate = function (year, month, day) {  
+                return `${this.zeroesLead(year, 4)}${this.zeroesLead(month, 2)}${this.zeroesLead(day, 2)}`;
+            };
+
+            this.formatDate = function (dateString) {
+                // Example: 20170318 -> 18/03/2017
+                let [year, month, day] = this.breakDate(dateString);
+
+                return `${day}/${month}/${year}`;
+            };
+
+            this.modifyDate = function(date, dayDiff = 0) {
+                let [year, month, day] = this.breakDate(date).map(Number);
+
+                // Create zero-based month javascript date object
+                let modified = new Date(year,  month - 1, day);
+
+                // Advance it's day by 1
+                modified.setDate(modified.getDate() + dayDiff);
+
+                // Reassemble into date string
+                return this.assembleDate(modified.getFullYear(), modified.getMonth() + 1, modified.getDate());
+            };
+
+            this.getTomorrow = function(today) {
+                return this.modifyDate(today, 1);
+            };
+
+            this.getYesterday = function(today) {
+                return this.modifyDate(today, -1);
+            };
+
             this.parseRoute = function (route) {
                 let parsedRoute = {};
 
@@ -112,7 +183,7 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
 
                 parsedRoute.trains = [];
 
-                for (let [index, train] of route.Train.entries()) {
+                for (let train of route.Train) {
                     parsedRoute.trains.push(this.parseTrain(train));
                 }
 
@@ -165,15 +236,48 @@ angular.module('myApp.routeResultsList').component('routeResultsList', {
                 parsedResults.noResults =
                     (parsedResults.routes.length == 0);
 
+                if (parsedResults.noResults) {
+                    parsedResults.noResultsString = "לא נמצאו תוצאות מתחנת ";
+                    parsedResults.noResultsString += stationService.resolveName(String($routeParams.origin));
+                    parsedResults.noResultsString += " לתחנת ";
+                    parsedResults.noResultsString += stationService.resolveName(String($routeParams.destination));
+                    parsedResults.noResultsString += " בתאריך ";
+                    parsedResults.noResultsString += this.formatDate(String($routeParams.date));
+                }
+
                 return parsedResults;
+            };
+
+            this.navTo = function (link){
+                $location.path(link);
             };
 
             stationService.getStations().then((stations) => {
                 this.stations = stations;
 
+                let yesterday = this.getYesterday($routeParams.date);
+                let tomorrow = this.getTomorrow($routeParams.date)
+
+
+                // let [yesterday, tomorrow] =
+                //     [this.getYesterday($routeParams.date), this.getTomorrow($routeParams.date)];
+
+                let baseLink = `/routes-result/${$routeParams.origin}/${$routeParams.destination}`;
+
+                $scope.yesterdayLink = `${baseLink}/${yesterday}`;
+                $scope.tomorrowLink = `${baseLink}/${tomorrow}`;
+
+                $scope.yesterdayLabel = 'יום לפני';
+
+                $scope.tomorrowLabel = 'יום אחרי';
+
                 this.fetchResults($routeParams.origin,
                     $routeParams.destination, $routeParams.date);
             });
+
+            this.swapStations = function () {
+                $location.path(`/routes-result/${$routeParams.destination}/${$routeParams.origin}/${$routeParams.date}`);
+            };
 
         }]
 });
