@@ -1,7 +1,10 @@
 'use strict';
 
+import routeFormTemplate from './route-form.template.html!ng-template';
+import './route-form.style.css!';
+
 angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('routeForm', {
-    templateUrl: 'components/route-form/route-form.template.html',
+    templateUrl: routeFormTemplate.templateUrl,
     bindings: {
 
     },

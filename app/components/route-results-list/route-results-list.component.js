@@ -1,7 +1,10 @@
 'use strict';
 
+import routeResultsListTemplate from './route-results-list.template.html!ng-template';
+import './route-results-list-style.css!';
+
 angular.module('myApp.routeResultsList', []).component('routeResultsList', {
-    templateUrl: 'components/route-results-list/route-results-list.template.html',
+    templateUrl: routeResultsListTemplate.templateUrl,
     controllerAs: '$ctrl',
     controller: ['$scope', '$location', '$mdToast', '$sanitize', '$routeParams', '$http', 'stationService',
         function ($scope, $location, $mdToast, $sanitize, $routeParams, $http, stationService) {

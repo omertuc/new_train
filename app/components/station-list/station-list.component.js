@@ -1,7 +1,10 @@
 'use strict';
 
+import stationListTemplate from './station-list.template.html!ng-template';
+import './station-list.style.css!';
+
 angular.module('myApp.stationList', []).component('stationList', {
-    templateUrl: 'components/station-list/station-list.template.html',
+    templateUrl: stationListTemplate.templateUrl,
     controllerAs: '$ctrl',
     controller: ['$scope', '$element', function ($scope, $element) {
         $scope.searchTerm;
