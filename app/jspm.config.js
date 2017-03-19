@@ -5,25 +5,7 @@ SystemJS.config({
     "new_train/": ""
   },
   browserConfig: {
-    "baseURL": "/",
-    "bundles": {
-      "new_train/build.js": [
-        "new_train/assets/views/station-select-view/station-select-view.js",
-        "new_train/assets/views/station-select-view/station-select-view.html!npm:plugin-ng-template@0.1.1/ng-template.js",
-        "new_train/assets/views/route-results-view/route-results-view.js",
-        "new_train/assets/views/route-results-view/route-results-view.html!npm:plugin-ng-template@0.1.1/ng-template.js",
-        "new_train/assets/services/station-service/station-service.js",
-        "new_train/assets/components/station-list/station-list.component.js",
-        "new_train/assets/components/station-list/station-list.style.css!github:systemjs/plugin-css@0.1.33/css.js",
-        "new_train/assets/components/station-list/station-list.template.html!npm:plugin-ng-template@0.1.1/ng-template.js",
-        "new_train/assets/components/route-results-list/route-results-list.component.js",
-        "new_train/assets/components/route-results-list/route-results-list-style.css!github:systemjs/plugin-css@0.1.33/css.js",
-        "new_train/assets/components/route-results-list/route-results-list.template.html!npm:plugin-ng-template@0.1.1/ng-template.js",
-        "new_train/assets/components/route-form/route-form.component.js",
-        "new_train/assets/components/route-form/route-form.style.css!github:systemjs/plugin-css@0.1.33/css.js",
-        "new_train/assets/components/route-form/route-form.template.html!npm:plugin-ng-template@0.1.1/ng-template.js"
-      ]
-    }
+    "baseURL": "/"
   },
   devConfig: {
     "map": {
