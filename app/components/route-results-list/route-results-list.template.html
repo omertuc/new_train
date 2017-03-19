@@ -1,33 +1,31 @@
 <md-content ng-cloak>
+    <md-button class="md-raised md-primary" aria-label="Yesterday"
+                ng-click="$ctrl.navTo(yesterdayLink)">
+        <md-icon md-svg-icon="img/icons/right_white.svg"></md-icon>
+        {{yesterdayLabel}}
+    </md-button>
+
+    <md-button class="md-raised md-primary" aria-label="Tomorrow"
+                ng-click="$ctrl.swapStations()">שנה כיוון
+        <md-icon md-svg-icon="img/icons/swap_white.svg"></md-icon>
+    </md-button>
+
+    <md-button class="md-raised md-primary" aria-label="Tomorrow"
+                ng-click="$ctrl.navTo(tomorrowLink)">
+        {{tomorrowLabel}}
+        <md-icon md-svg-icon="img/icons/left_white.svg"></md-icon>
+    </md-button>
+
+    <md-subheader ng-hide="!parsedResults.noResults">{{parsedResults.noResultsString}}</md-subheader>
+
+    <div layout-padding layout="row" layout-xs="column" layout-align="start center">
+      <md-progress-circular ng-show="showSpinner"
+                            md-mode="indeterminate" class="md-accent"></md-progress-circular>
+    </div>
+
+    <md-subheader ng-hide="parsedResults.noResults" ng-bind-html="titleString"></md-subheader>
+
     <md-list flex>
-        <md-button class="md-raised md-primary" aria-label="Yesterday"
-                   ng-click="$ctrl.navTo(yesterdayLink)">
-            <md-icon md-svg-icon="img/icons/right_white.svg"></md-icon>
-            {{yesterdayLabel}}
-        </md-button>
-
-        <md-button class="md-raised md-primary" aria-label="Tomorrow"
-                   ng-click="$ctrl.swapStations()">שנה כיוון
-            <md-icon md-svg-icon="img/icons/swap_white.svg"></md-icon>
-        </md-button>
-
-        <md-button class="md-raised md-primary" aria-label="Tomorrow"
-                   ng-click="$ctrl.navTo(tomorrowLink)">
-            {{tomorrowLabel}}
-            <md-icon md-svg-icon="img/icons/left_white.svg"></md-icon>
-        </md-button>
-
-
-
-
-
-        <md-subheader ng-hide="!parsedResults.noResults">{{parsedResults.noResultsString}}</md-subheader>
-
-        <md-progress-circular ng-show="showSpinner"
-                              md-mode="indeterminate" class="md-accent"></md-progress-circular>
-
-        <md-subheader ng-hide="parsedResults.noResults" ng-bind-html="titleString"></md-subheader>
-
         <div ng-repeat="route in parsedResults.routes">
             <md-divider></md-divider>
             <md-list-item class="md-3-line" ng-click="toggleDetails($index)">
