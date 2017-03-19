@@ -15,12 +15,9 @@ import './views/route-results-view/route-results-view';
 import './views/station-select-view/station-select-view';
 
 // Components
-import './components/route-results-list/route-results-list.module';
-import './components/route-results-list/route-results-list.component';
-import './components/station-list/station-list.module';
-import './components/station-list/station-list.component';
-import './components/route-form/route-form.module';
 import './components/route-form/route-form.component';
+import './components/route-results-list/route-results-list.component';
+import './components/station-list/station-list.component';
 
 // Declare app level module which depends on views, and components
 angular.module('myApp', [

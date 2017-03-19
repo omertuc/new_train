@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.routeResultsList').component('routeResultsList', {
+angular.module('myApp.routeResultsList', []).component('routeResultsList', {
     templateUrl: 'components/route-results-list/route-results-list.template.html',
     controllerAs: '$ctrl',
     controller: ['$scope', '$location', '$mdToast', '$sanitize', '$routeParams', '$http', 'stationService',

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.stationList').component('stationList', {
+angular.module('myApp.stationList', []).component('stationList', {
     templateUrl: 'components/station-list/station-list.template.html',
     controllerAs: '$ctrl',
     controller: ['$scope', '$element', function ($scope, $element) {
