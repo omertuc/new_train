@@ -1,6 +1,6 @@
 'use strict';
 
-// Angular deps
+// Angular and dependencies
 import angular from 'angular';
 import 'angular/material';
 import 'angular/angular-route';
@@ -11,16 +11,16 @@ import 'angular/angular-messages';
 import './app.css!';
 
 // Services
-import './services/station-service/station-service';
-
-// Views
-import './views/route-results-view/route-results-view';
-import './views/station-select-view/station-select-view';
+import './assets/services/station-service/station-service.js';
 
 // Components
-import './components/route-form/route-form.component';
-import './components/route-results-list/route-results-list.component';
-import './components/station-list/station-list.component';
+import './assets/components/route-form/route-form.component.js';
+import './assets/components/route-results-list/route-results-list.component.js';
+import './assets/components/station-list/station-list.component.js';
+
+// Views
+import './assets/views/route-results-view/route-results-view.js';
+import './assets/views/station-select-view/station-select-view.js';
 
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
