@@ -12,7 +12,6 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
-
   map: {
     "angular": "github:angular/bower-angular@1.6.3",
     "angular/angular-messages": "github:angular/bower-angular-messages@1.6.3",
