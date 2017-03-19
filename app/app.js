@@ -1,5 +1,27 @@
 'use strict';
 
+// Angular deps
+import angular from 'angular/bower-angular';
+import 'angular/bower-material';
+import 'angular/bower-angular-route';
+import 'angular/bower-angular-sanitize';
+import 'angular/bower-angular-messages';
+
+// Services
+import './services/station-service/station-service';
+
+// Views
+import './views/route-results-view/route-results-view';
+import './views/station-select-view/station-select-view';
+
+// Components
+import './components/route-results-list/route-results-list.module';
+import './components/route-results-list/route-results-list.component';
+import './components/station-list/station-list.module';
+import './components/station-list/station-list.component';
+import './components/route-form/route-form.module';
+import './components/route-form/route-form.component';
+
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
     'ngRoute',
@@ -32,3 +54,8 @@ angular.module('myApp', [
     };
 
 }]);
+
+// Manually bootstrap the app after loading all deps
+angular.element(document).ready(function() {
+    angular.bootstrap(document, ['myApp'], {strictDi: true});
+});
