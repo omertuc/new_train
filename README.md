@@ -19,7 +19,7 @@ $ npm start
 new_train isn't bundled (minified & mangled) out-of-the-box so if you did simply start it after clone it'll run without a bundle. We mainly use bundles (hence the build) in production to serve lighter files to the client.
 
 **Full Build**
-Includes both assets and dependencies
+Bundles both assets and dependencies as seen below
 ```
 $ npm run build
 ```
