@@ -2,9 +2,11 @@
     <label>{{$ctrl.selectLabel}}</label>
 
     <md-select ng-model="$ctrl.selectId"
+               name="{{$ctrl.selectFormId}}"
                md-on-close="clearSearchTerm()"
                md-theme="default"
-               data-md-container-class="selectdemoSelectHeader">
+               data-md-container-class="selectdemoSelectHeader"
+               required>
 
         <md-select-header class="demo-select-header">
             <input ng-model="searchTerm"
@@ -20,7 +22,6 @@
                 {{station.Heb[0]}}
             </md-option>
         </md-optgroup>
-
     </md-select>
 </md-input-container>
 

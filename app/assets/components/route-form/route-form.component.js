@@ -73,7 +73,12 @@ angular.module('myApp.routeForm', ['ngMaterial', 'ngMessages']).component('route
         };
 
         this.searchTimesHandler = function () {
+          if ($scope.routeForm.$valid) {
             this.submit();
+          } else {
+            $scope.routeForm.$error.required.forEach((e) =>
+                $scope.routeForm[e.$name].$setTouched());
+          }
         };
 
         this.swapStations = function () {

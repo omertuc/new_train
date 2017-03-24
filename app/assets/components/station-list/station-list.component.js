@@ -26,6 +26,7 @@ angular.module('myApp.stationList', []).component('stationList', {
     }],
     bindings: {
         stationList: '<',
+        selectFormId: '@',
         selectId: '=',
         selectLabel: '<'
     }

@@ -1,38 +1,42 @@
 <div class="route-form">
-  <md-content layout-padding layout="row" layout-xs="column" layout-align="start center">
-    <md-progress-circular ng-show="showSpinner"
-      md-mode="indeterminate" class="md-accent"></md-progress-circular>
+  <form name="routeForm">
+    <md-content layout-padding layout="row" layout-xs="column" layout-align="start center">
+      <md-progress-circular ng-show="showSpinner"
+        md-mode="indeterminate" class="md-accent"></md-progress-circular>
 
-    <station-list station-list="$ctrl.stations"
-                  ng-show="!showSpinner"
-      select-id="global.origin"
-      select-label="$ctrl.originLabel"></station-list>
+      <station-list station-list="$ctrl.stations"
+                    ng-show="!showSpinner"
+        select-form-id="origin"
+        select-id="global.origin"
+        select-label="$ctrl.originLabel"></station-list>
 
-    <md-input-container>
-      <md-button class="md-icon-button" aria-label="Swap"
-                 ng-click="$ctrl.swapStations()"
-                 ng-show="!showSpinner">
-        <md-icon md-svg-icon="img/icons/swap_white.svg"></md-icon>
-      </md-button>
-    </md-input-container>
+      <md-input-container>
+        <md-button class="md-icon-button" aria-label="Swap"
+                  ng-click="$ctrl.swapStations()"
+                  ng-show="!showSpinner">
+          <md-icon md-svg-icon="img/icons/swap_white.svg"></md-icon>
+        </md-button>
+      </md-input-container>
 
-    <station-list station-list="$ctrl.stations"
-                  ng-show="!showSpinner"
-      select-id="global.destination"
-      select-label="$ctrl.destinationLabel"></station-list>
+      <station-list station-list="$ctrl.stations"
+                    ng-show="!showSpinner"
+        select-form-id="destination"
+        select-id="global.destination"
+        select-label="$ctrl.destinationLabel"></station-list>
 
-    <md-input-container class="datepicker-container"
-                        ng-show="!showSpinner">
-      <md-datepicker ng-model="global.myDate" name="dateField"
-        md-min-date="ctrl.minDate"
-        md-max-date="ctrl.maxDate"
-        md-open-on-focus></md-datepicker>
-    </md-input-container>
+      <md-input-container class="datepicker-container"
+                          ng-show="!showSpinner">
+        <md-datepicker ng-model="global.myDate" name="dateField"
+          md-min-date="ctrl.minDate"
+          md-max-date="ctrl.maxDate"
+          md-open-on-focus></md-datepicker>
+      </md-input-container>
 
-    <md-input-container>
-        <md-button class="md-raised md-primary" aria-label="Search Route"
-                   ng-click="$ctrl.searchTimesHandler()"
-                   ng-show="!showSpinner">חפש מסלול</md-button>
-    </md-input-container>
-  </md-content>
+      <md-input-container>
+          <md-button class="md-raised md-primary" aria-label="Search Route"
+                    ng-click="$ctrl.searchTimesHandler()"
+                    ng-show="!showSpinner">חפש מסלול</md-button>
+      </md-input-container>
+    </md-content>
+  </form>
 </div>
