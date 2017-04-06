@@ -39,7 +39,7 @@ angular.module('myApp.routeResultsList', []).component('routeResultsList', {
                 } else {
                     $mdToast.show(
                         $mdToast.simple()
-                            .textContent('שגיאת API :(')
+                            .textContent('שגיאת API בעת קבלת תוצאות משרתי הרכבת. אנה רענן ונסה שנית')
                             .hideDelay(5000)
                             .theme('failure-toast'));
 
