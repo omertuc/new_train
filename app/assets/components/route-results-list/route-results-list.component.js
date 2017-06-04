@@ -11,7 +11,7 @@ angular.module('myApp.routeResultsList', []).component('routeResultsList', {
             this.constructApiString = function (origin, destination, searchDate) {
                 let requestString = 'https://www.rail.co.il/apiinfo/api/Plan/GetRoutes?';
 
-                requestString += `OId=${origin}&TId=${destination}&Date=${searchDate}&Hour=0000`;
+                requestString += `OId=${origin}&TId=${destination}&Date=${searchDate}&Hour=2400`;
 
                 return requestString;
             };
